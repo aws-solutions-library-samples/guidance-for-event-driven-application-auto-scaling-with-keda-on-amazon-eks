@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: sqs-consumer-backend
+  namespace: keda-sqs-guidance
+spec:
+  selector:
+    matchLabels:
+      app: sqs-consumer-backend
+  replicas: 0
+  template: 
+    metadata:
+      labels:
+        app: sqs-consumer-backend
+    spec:
+      serviceAccountName: sqsconsumer
+      containers:
+      - name: sqs-consumer
+        image: ${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/sqsconsumer:latest
+        env:
+        - name: RELIABLE_QUEUE_NAME
+          value: ${QUEUE_NAME}
+        - name: AWS_REGION
+          value: ${AWS_REGION}
+        - name: MAX_MSGS_PER_BATCH
+          value: "5"
+        - name: MSG_POLL_BACKOFF
+          value: "2"
+        - name: MSG_PROCESS_DELAY
+          value: "10"
+        - name: TOT_MSGS_TO_PROCESS
+          value: "10000"
+        - name: LOG_LEVEL
+          value: INFO
