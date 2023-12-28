@@ -1,0 +1,108 @@
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: adot-collector
+rules:
+  - apiGroups: [""]
+    resources:
+    - nodes
+    - nodes/proxy
+    - services
+    - endpoints
+    - pods
+    verbs: ["get", "list", "watch"]
+  - apiGroups:
+    - extensions
+    resources:
+    - ingresses
+    verbs: ["get", "list", "watch"]
+  - nonResourceURLs: ["/metrics"]
+    verbs: ["get"]
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: adot-collector-binding
+subjects:
+  - kind: ServiceAccount
+    name: adot-collector
+    namespace: adot
+roleRef:
+  kind: ClusterRole
+  name: adot-collector
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: adot-collector
+  namespace: adot
+  labels:
+    app: aws-adot
+    component: adot-collector
+spec:
+  selector:
+    matchLabels:
+      app: aws-adot
+      component: adot-collector
+  template:
+    metadata:
+      labels:
+        app: aws-adot
+        component: adot-collector
+    spec:
+      serviceAccountName: adot-collector
+      containers:
+      - name: adot-collector
+        image: public.ecr.aws/aws-observability/aws-otel-collector:v0.36.0
+        command:
+        - "/awscollector"
+        - "--config=/conf/adot-collector-config.yaml"
+        ports:
+        - containerPort: 55681
+        - containerPort: 55680
+        - containerPort: 4317
+        - containerPort: 8888
+        env:
+        - name: AWS_REGION
+          value: {AWS_REGION}
+        volumeMounts:
+        - name: adot-collector-config-vol
+          mountPath: /conf
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 13133
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 13133
+      volumes:
+        - configMap:
+            name: adot-collector
+            items:
+              - key: adot-collector-config
+                path: adot-collector-config.yaml
+          name: adot-collector-config-vol
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: adot
+  namespace: adot
+  labels:
+    app: aws-adot
+    component: adot-collector
+spec:
+  ports:
+  - name: receiver-http
+    port: 55681
+  - name: receiver-grpc-legacy
+    port: 55680
+  - name: receiver-grpc
+    port: 4317
+  - name: metrics
+    port: 8888
+  selector:
+    app: aws-adot

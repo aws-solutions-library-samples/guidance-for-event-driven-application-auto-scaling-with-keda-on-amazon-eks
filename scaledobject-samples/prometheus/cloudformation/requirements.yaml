@@ -1,0 +1,28 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Metadata:
+  License: MIT
+Description: 'AWS CloudFormation Template to create Amazon Managed Service for Prometheus for KEDA on EKS Guidance'
+
+Resources:
+  PrometheusWorkspace:
+    Type: AWS::APS::Workspace
+    Properties:
+      Tags:
+        - Key: AWS_Guidance
+          Value: KEDA_on_Amazon_EKS
+
+  SampleAppECR:
+    Type: AWS::ECR::Repository
+    Properties:
+      RepositoryName: sample-app
+      EmptyOnDelete: true
+      Tags:
+        - Key: AWS_Guidance
+          Value: KEDA_on_Amazon_EKS
+Outputs:
+  SampleAppECR:
+    Value: !Sub "${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/sample-app"
+  PrometheusEndpoint:
+    Value: !GetAtt PrometheusWorkspace.PrometheusEndpoint
+  PrometheusWorkspace:
+    Value: !GetAtt PrometheusWorkspace.WorkspaceId
