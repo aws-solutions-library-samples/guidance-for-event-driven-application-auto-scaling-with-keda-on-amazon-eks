@@ -4,4 +4,4 @@ echo "export CLUSTER_NAME=eks-keda-guidance" >> /home/ec2-user/.bashrc
 echo "export KEDA_NAMESPACE=keda" >> /home/ec2-user/.bashrc
 echo "export KEDA_OPERATOR_ROLENAME=keda-operator-role" >> /home/ec2-user/.bashrc
 source /home/ec2-user/.bashrc
-envsubst < cluster.yaml > /tmp/cluster.yaml && mv /tmp/cluster.yaml cluster.yaml
+envsubst < setup/cluster.yaml > /tmp/cluster.yaml && mv /tmp/cluster.yaml setup/cluster.yaml
