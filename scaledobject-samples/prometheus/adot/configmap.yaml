@@ -107,7 +107,7 @@ data:
         timeout: 10s
     exporters:
       prometheusremotewrite:
-        endpoint: https://aps-workspaces.us-west-2.amazonaws.com/workspaces/ws-265009ef-3f06-48ac-be10-f05357a4fb90/api/v1/remote_write
+        endpoint: {PROMETHEUS_ENDPOINT}
         auth:
           authenticator: sigv4auth
         namespace: "adot"
