@@ -16,8 +16,6 @@ class GlobalArgs:
     MSG_POLL_BACKOFF = int(os.getenv("MSG_POLL_BACKOFF", 2))
     MSG_PROCESS_DELAY = int(os.getenv("MSG_PROCESS_DELAY", 10))
     TOT_MSGS_TO_PROCESS = int(os.getenv("TOT_MSGS_TO_PROCESS", 10))
-    #S3_BKT_NAME = os.getenv("STORE_EVENTS_BKT")
-    #S3_PREFIX = "store_events"
 
 
 def set_logging(lv=GlobalArgs.LOG_LEVEL):
@@ -30,19 +28,6 @@ def set_logging(lv=GlobalArgs.LOG_LEVEL):
 
 logger = set_logging()
 sqs_client = boto3.client("sqs", region_name=GlobalArgs.AWS_REGION)
-#_s3 = boto3.client("s3")
-
-
-# def put_object(_pre, data):
-#     try:
-#         _r = _s3.put_object(
-#             Bucket=GlobalArgs.S3_BKT_NAME,
-#             Key=f"{GlobalArgs.S3_PREFIX}/event_type={_pre}/dt={datetime.datetime.now().strftime('%Y_%m_%d')}/{datetime.datetime.now().strftime('%s%f')}.json",
-#             Body=json.dumps(data).encode("UTF-8"),
-#         )
-#         logger.debug(f"resp: {json.dumps(_r)}")
-#     except Exception as e:
-#         logger.exception(f"ERROR:{str(e)}")
 
 
 def get_q_url(sqs_client):
@@ -56,7 +41,6 @@ def sqs_polling():
     no_msgs = False
     no_msg_cnt = 0
     back_off_secs = GlobalArgs.MSG_POLL_BACKOFF
-    # poll sqs for 10000 Msgs
     t_msgs = 0
     while True:
         q_url = get_q_url(sqs_client)
@@ -120,9 +104,6 @@ def process_msgs(msg_batch):
         for m in msg_batch["Messages"]:
             m_del_entries.append(
                 {"Id": m["MessageId"], "ReceiptHandle": m['ReceiptHandle']})
-            # d = json.loads(m["Body"])
-            # e_type = m["MessageAttributes"]["event_type"]["StringValue"]
-            #put_object(e_type, d)
             print(m["Body"])
             m_process_stats["s_msgs"] += 1
         # Trigger Message Batch Delete
