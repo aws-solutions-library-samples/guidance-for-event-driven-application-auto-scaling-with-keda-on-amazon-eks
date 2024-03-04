@@ -4,6 +4,7 @@ kind: ClusterConfig
 metadata:
   name: ${CLUSTER_NAME}
   region: ${AWS_REGION}
+  version: "1.29"
 
 managedNodeGroups:
 - amiFamily: AmazonLinux2
