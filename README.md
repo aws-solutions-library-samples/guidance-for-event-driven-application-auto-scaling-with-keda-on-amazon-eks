@@ -25,7 +25,7 @@ Current default Kubernetes scaling mechanism based on CPU and memory utilization
 
 ## Architecture
 
-![](assets/keda-arquitecture.jpg)
+![](assets/keda-architecture.jpg)
 
 ## Main services that make up the guidance.
 
