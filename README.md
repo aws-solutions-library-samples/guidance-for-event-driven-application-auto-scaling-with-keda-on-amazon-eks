@@ -8,6 +8,21 @@ In this [Guidance](#put-link-here), we will dive deep into the concepts of KEDA 
 
 Current default Kubernetes scaling mechanism based on CPU and memory utilization are not efficient enough for event-driven applications. Those mechanisms lead to over or under provisioned resources that might generate a poor cost efficiency or customer experience. KEDA enables scaling based on custom metrics. For example, business metrics like the amount of orders or payments waiting to be processed, or technical metrics, like the number of concurrent requests or response time.
 
+## Architecture
+
+![](assets/keda-architecture.png)
+Figure 1: KEDA architecture on AWS
+
+### Architecture steps
+1. App using Amazon SQS to decouple communication between microservices.
+2. AWS Distro for OpenTelemetry (ADOT) gets metrics from application and sends to Amazon Managed Prometheus (AMP).
+3. KEDA configured to use Amazon SQS and Prometheus scaler to get SQS queue length and Prometheus custom metrics.
+4. KEDA (keda-operator-metrics-apiserver) exposes event data for HPA to scale.
+5. Horizontal Pod Autoscaling (HPA) scales the number of pods.
+6. Cluster Autoscaling (CA) provisions the required nodes using auto scaling group (works with Karpenter as well)
+7. New Capacity provisioned as required.
+8. Amazon Managed Grafana (AMG) **optionally** configured to show metrics from AMP in a dashboard.
+
 
 ## Understanding the project structure
 
@@ -23,9 +38,52 @@ Current default Kubernetes scaling mechanism based on CPU and memory utilization
 3. And in the ```/setup``` folder are the files related to the Amazon EKS cluster setup.
 
 
-## Architecture
+## Pre requirements
 
-![](assets/keda-architecture.jpg)
+- Set up [AWS Cloud9](https://aws.amazon.com/cloud9/) Environment.
+- Clone this Github repository to the Cloud9 environment you have created.
+- Execute the setup script: ``` chmod +x setup/*.sh ./setup/tools.sh```
+
+The ```tools.sh``` script in AWS Cloud9 terminal will install the following tools and configure them:
+
+- eksctl
+- kubectl
+- awscli
+- Helm CLI
+- jq, envsubst (from GNU gettext utilities) and bash-completion
+- Install k9s a Kubernetes CLI to Manage Your Clusters in Style
+- Enable kubectl bash_completion
+- Verify the binaries are in the path and executable
+- Enable some kubernetes aliases
+- Configure aws cli with your current region as default.
+- Save these into bash_profile
+
+#### Create EKS Cluster
+- Execute the following scripts to setup environment variables and deploy Amazon EKS cluster:
+
+``` 
+./setup/env.sh
+
+source /home/ec2-user/.bashrc 
+
+eksctl create cluster -f setup/cluster.yaml 
+```
+
+#### Create the IAM OIDC Identity Provider
+- Create the IAM OIDC Identity Provider for the cluster:
+
+```  eksctl utils associate-iam-oidc-provider --cluster $CLUSTER_NAME --approve ```
+
+```echo "export OIDC_ID=$(aws eks describe-cluster --name $CLUSTER_NAME --query 'cluster.identity.oidc.issuer' --output text | cut -d '/' -f 5)" >> /home/ec2-user/.bashrc && source /home/ec2-user/.bashrc``` 
+
+#### Test access to EKS cluster
+- ```kubectl get nodes```
+
+
+## Continue implementing the Guidance
+
+To continue implementing the Guidance click  **[HERE](#put-link-here)** to learn more.
+
 
 ## Main services that make up the guidance.
 
@@ -33,7 +91,7 @@ Current default Kubernetes scaling mechanism based on CPU and memory utilization
 - [Amazon SQS](https://aws.amazon.com/sqs/)
 - [Amazon Managed Service for Prometheus](https://aws.amazon.com/prometheus/)
 - [AWS Distro for OpenTelemetry (ADOT)](https://aws-otel.github.io/)
-- [Amazon Managed Grafana](https://aws.amazon.com/grafana/)
+- [Amazon Managed Grafana](https://aws.amazon.com/grafana/) (optional)
 
 
 ## Security
