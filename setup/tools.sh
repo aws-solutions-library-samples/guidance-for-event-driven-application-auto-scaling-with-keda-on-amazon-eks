@@ -24,7 +24,7 @@ sudo yum -y install jq gettext bash-completion moreutils
 
 ######################Install eks-node-viewer######################
 
-Install eks-node-viewer  for visualizing dynamic node usage within a cluster.
+#Install eks-node-viewer  for visualizing dynamic node usage within a cluster.
 
 ######################This step may take about 2-3 minutes to download all the dependencies and install eks-node-viewer
 
