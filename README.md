@@ -115,7 +115,7 @@ eksctl create cluster -f setup/cluster.yaml
 
 ## Deployment steps and Validation
 
-To continue implementing the Guidance click  **[HERE](#put-link-here)** to learn more.
+To continue implementing the Guidance click  **[Implementation Guide](https://gitlab.aws.dev/wwso-guidance-samples/implementation-guides/guidance-for-event-driven-application-autoscaling-with-keda-on-amazon-eks/-/blob/main/ed_kedaeks_IG.md?ref_type=heads#cleanup-sqs-environment)** to learn more.
 
 
 ## Main services that make up the guidance.
