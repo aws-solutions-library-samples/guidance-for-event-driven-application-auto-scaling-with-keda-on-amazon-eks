@@ -1,3 +1,19 @@
+# Guidance for Event Driven Application Autoscaling with KEDA on Amazon EKS
+
+This repository consists code for `Guidance for Event Driven Application Autoscaling with KEDA on Amazon EKS`.
+
+#### Table of Contents
+
+* [Overview](#overview)
+* [About KEDA](#about-keda)
+* [Cost](#cost)
+* [Architecture](#architecture)
+* [Prerequisites](#prerequisites)
+* [Security](#security)
+* [Cleanup](#cleanup)
+* [License](#license)
+
+
 ## Overview
 
 In this [Guidance](#put-link-here), we will dive deep into the concepts of KEDA with examples. As part of this exercise, we will also learn how using KEDA can lower compute cost scaling Kubernetes Pods based on events like the amount of messages in [Amazon SQS](https://aws.amazon.com/sqs/) Queue or customized metrics from [Amazon Managed Service for Prometheus](https://aws.amazon.com/prometheus/).
