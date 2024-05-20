@@ -18,9 +18,9 @@ a month**.
 Refer to the pricing webpage for each AWS service used in this Guidance.
 
 We recommend creating
-a [budget](https://alpha-docs-aws.amazon.com/awsaccountbilling/latest/aboutv2/budgets-create.html){:target="_blank"} through [AWS
+a [budget](https://alpha-docs-aws.amazon.com/awsaccountbilling/latest/aboutv2/budgets-create.html) through [AWS
 Cost
-Explorer](http://aws.amazon.com/aws-cost-management/aws-cost-explorer/){:target="_blank"} to
+Explorer](http://aws.amazon.com/aws-cost-management/aws-cost-explorer/) to
 help manage costs. Prices are subject to change. For full details, refer
 to the pricing webpage for each AWS service used in this Guidance.
 
@@ -31,7 +31,7 @@ Guidance with the default parameters in the US West (Oregon) Region
 for one month.
 
 | **AWS service**  | Dimensions | Cost \[USD\] |
-|-----------|------------|
+|-----------|------------|----------|
 | Amazon Elastic Kubernetes Service | 1 managed control plane | \$ 0.10 per Hour |
 | Amazon Elastic Compute Service | 2 or 3 m5.large instances | \$ 0.096 per instance per Hour |
 | Amazon Elastic Container Registry | less than 1GB of storage | \$ 0.10 per GB per month |
@@ -71,7 +71,7 @@ Figure 1: KEDA architecture on AWS
 3. And in the ```/setup``` folder are the files related to the Amazon EKS cluster setup.
 
 
-## Pre requirements
+## Prerequisites
 
 - Set up [AWS Cloud9](https://aws.amazon.com/cloud9/) Environment.
 - Clone this Github repository to the Cloud9 environment you have created.
@@ -113,7 +113,7 @@ eksctl create cluster -f setup/cluster.yaml
 - ```kubectl get nodes```
 
 
-## Continue implementing the Guidance
+## Deployment steps and Validation
 
 To continue implementing the Guidance click  **[HERE](#put-link-here)** to learn more.
 
@@ -130,6 +130,10 @@ To continue implementing the Guidance click  **[HERE](#put-link-here)** to learn
 ## Security
 
 See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
+
+## Cleanup
+
+Please follow the steps in [Clean up Section of the Implementation Guide](https://gitlab.aws.dev/wwso-guidance-samples/implementation-guides/guidance-for-event-driven-application-autoscaling-with-keda-on-amazon-eks/-/blob/main/ed_kedaeks_IG.md?ref_type=heads#cleanup-sqs-environment)
 
 ## License
 
