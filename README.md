@@ -1,4 +1,20 @@
-## About the Guidance
+# Guidance for Event Driven Application Autoscaling with KEDA on Amazon EKS
+
+This repository consists code for `Guidance for Event Driven Application Autoscaling with KEDA on Amazon EKS`.
+
+#### Table of Contents
+
+* [Overview](#overview)
+* [About KEDA](#about-keda)
+* [Cost](#cost)
+* [Architecture](#architecture)
+* [Prerequisites](#prerequisites)
+* [Security](#security)
+* [Cleanup](#cleanup)
+* [License](#license)
+
+
+## Overview
 
 In this [Guidance](#put-link-here), we will dive deep into the concepts of KEDA with examples. As part of this exercise, we will also learn how using KEDA can lower compute cost scaling Kubernetes Pods based on events like the amount of messages in [Amazon SQS](https://aws.amazon.com/sqs/) Queue or customized metrics from [Amazon Managed Service for Prometheus](https://aws.amazon.com/prometheus/).
 
@@ -7,6 +23,39 @@ In this [Guidance](#put-link-here), we will dive deep into the concepts of KEDA 
 [KEDA](https://keda.sh/) is a single-purpose and lightweight component that can be added into any Kubernetes cluster. KEDA works alongside standard Kubernetes components like the [Horizontal Pod Autoscaler](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) and can extend functionality without overwriting or duplication. Currently, KEDA has over 60 scalers available to detect if a deployment should be activated or deactivated, and feed custom metrics for a specific event source. 
 
 Current default Kubernetes scaling mechanism based on CPU and memory utilization are not efficient enough for event-driven applications. Those mechanisms lead to over or under provisioned resources that might generate a poor cost efficiency or customer experience. KEDA enables scaling based on custom metrics. For example, business metrics like the amount of orders or payments waiting to be processed, or technical metrics, like the number of concurrent requests or response time.
+
+### Cost 
+
+You are responsible for the cost of the AWS services used while running
+this Guidance. As of April 2024, the cost for running this
+Guidance with the default settings in the US West (Oregon) is approximately **\$ 302.24
+a month**.
+
+Refer to the pricing webpage for each AWS service used in this Guidance.
+
+We recommend creating
+a [budget](https://alpha-docs-aws.amazon.com/awsaccountbilling/latest/aboutv2/budgets-create.html) through [AWS
+Cost
+Explorer](http://aws.amazon.com/aws-cost-management/aws-cost-explorer/) to
+help manage costs. Prices are subject to change. For full details, refer
+to the pricing webpage for each AWS service used in this Guidance.
+
+### Cost table
+
+The following table provides a sample cost breakdown for deploying this
+Guidance with the default parameters in the US West (Oregon) Region
+for one month.
+
+| **AWS service**  | Dimensions | Cost \[USD\] |
+|-----------|------------|----------|
+| Amazon Elastic Kubernetes Service | 1 managed control plane | \$ 0.10 per Hour |
+| Amazon Elastic Compute Service | 2 or 3 m5.large instances | \$ 0.096 per instance per Hour |
+| Amazon Elastic Container Registry | less than 1GB of storage | \$ 0.10 per GB per month |
+| Amazon Simple Queue Message | less than 1 million requests | \$ 0.40 per Million |
+| Amazon Managed Service for Prometheus | less than 10M samples ingested + less than 1GB Storage | \$ 0.90 per 10M samples + \$ 0.03 per GB per Month | 
+| Amazon Cloud9 | 1 t2.micro Linux instance | \$ 0.0116 per hour + \$ 0.10 per GB per month of provisioned storage |
+| Amazon Managed Grafana | Optinally 1 Editor license | \$ 9 per user per month |
+
 
 ## Architecture
 
@@ -38,7 +87,7 @@ Figure 1: KEDA architecture on AWS
 3. And in the ```/setup``` folder are the files related to the Amazon EKS cluster setup.
 
 
-## Pre requirements
+## Prerequisites
 
 - Set up [AWS Cloud9](https://aws.amazon.com/cloud9/) Environment.
 - Clone this Github repository to the Cloud9 environment you have created.
@@ -80,9 +129,9 @@ eksctl create cluster -f setup/cluster.yaml
 - ```kubectl get nodes```
 
 
-## Continue implementing the Guidance
+## Deployment steps and Validation
 
-To continue implementing the Guidance click  **[HERE](#put-link-here)** to learn more.
+To continue implementing the Guidance click  **[Implementation Guide](https://gitlab.aws.dev/wwso-guidance-samples/implementation-guides/guidance-for-event-driven-application-autoscaling-with-keda-on-amazon-eks/-/blob/main/ed_kedaeks_IG.md?ref_type=heads#cleanup-sqs-environment)** to learn more.
 
 
 ## Main services that make up the guidance.
@@ -97,6 +146,10 @@ To continue implementing the Guidance click  **[HERE](#put-link-here)** to learn
 ## Security
 
 See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
+
+## Cleanup
+
+Please follow the steps in [Clean up Section of the Implementation Guide](https://gitlab.aws.dev/wwso-guidance-samples/implementation-guides/guidance-for-event-driven-application-autoscaling-with-keda-on-amazon-eks/-/blob/main/ed_kedaeks_IG.md?ref_type=heads#cleanup-sqs-environment)
 
 ## License
 
