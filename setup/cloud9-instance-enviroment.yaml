@@ -1,0 +1,69 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: AWS CloudFormation template for Cloud9 instance setup - KEDA Guidance.
+
+Parameters:
+  C9InstanceType:
+    Description: Cloud9 instance type
+    Type: String
+    Default: t2.micro
+    AllowedValues:
+      - t2.micro
+      - t3.small
+      - t3.medium
+
+  C9InstanceName:
+    Description: Cloud9 instance name
+    Type: String
+    Default: keda-cloud9
+
+Resources:
+
+  Cloud9Role:
+    Type: "AWS::IAM::Role"
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              Service: "ec2.amazonaws.com"
+            Action: "sts:AssumeRole"
+      Path: "/"
+      RoleName: "eks-keda-guidance-cloud9admin-role"
+      ManagedPolicyArns:
+        - "arn:aws:iam::aws:policy/AdministratorAccess"
+      Tags:
+        - Key: Environment
+          Value: keda-Guidance
+
+  Cloud9InstanceProfile:
+    Type: "AWS::IAM::InstanceProfile"
+    Properties:
+      InstanceProfileName: "eks-keda-guidance-cloud9admin"
+      Path: "/"
+      Roles:
+      - !Ref Cloud9Role
+
+  Cloud9Environment:
+    Type: "AWS::Cloud9::EnvironmentEC2"
+    Properties: 
+      InstanceType: !Ref C9InstanceType
+      ImageId: amazonlinux-2023-x86_64
+      Name: !Ref C9InstanceName
+      Description: "Cloud9 environment for KEDA Guidance."
+      AutomaticStopTimeMinutes: 30 # Automatically stop after 30 minutes of inactivity
+      ConnectionType: CONNECT_SSM
+      Tags:
+        - Key: Environment
+          Value: keda-Guidance
+
+Outputs:
+  Cloud9IDE:
+    Value: !Join
+      - ''
+      - - https://
+        - !Ref AWS::Region
+        - .console.aws.amazon.com/cloud9/ide/
+        - !Ref Cloud9Environment
+        - '?region='
+        - !Ref AWS::Region
