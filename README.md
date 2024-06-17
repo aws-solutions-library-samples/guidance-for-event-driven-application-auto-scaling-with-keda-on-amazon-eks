@@ -84,12 +84,18 @@ Figure 1: KEDA architecture on AWS
 
     2.2. In the ```/prometheus``` folder are the files related to the application configurations that will consume custom metrics from [Amazon Prometheus](https://aws.amazon.com/prometheus/) together with its **ScaledObject**.
 
-3. And in the ```/setup``` folder are the files related to the Amazon EKS cluster setup.
+3. In the ```/setup``` folder are the files related to setup the environment and Amazon EKS cluster.
 
 
 ## Prerequisites
 
 - Set up [AWS Cloud9](https://aws.amazon.com/cloud9/) Environment.
+  
+To deploy the Cloud9 instance and the IAM role instance profile, you can run the ``` /setup/cloud9-instance-enviroment.yaml ``` CloudFormation template.
+
+> [!NOTE]  
+> The IAM role instance profile and the IAM policy attached will be created automatically, you only need to attach the IAM role instance profile named ``` eks-keda-guidance-cloud9admin ```  at the Cloud9 instance after creation.
+
 - Clone this Github repository to the Cloud9 environment you have created.
 - Execute the setup script: ``` chmod +x setup/*.sh ./setup/tools.sh```
 
