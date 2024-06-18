@@ -1,5 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: AWS CloudFormation template for Cloud9 instance setup - KEDA Guidance.
+Description: AWS CloudFormation template for Cloud9 instance setup - KEDA Guidance (SO9469)
+
 
 Parameters:
   C9InstanceType:
