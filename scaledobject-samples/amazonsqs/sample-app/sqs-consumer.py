@@ -42,4 +42,3 @@ while True:
     if TOTAL_MESSAGES_TO_PROCESS and len(resp["Messages"]) >= TOTAL_MESSAGES_TO_PROCESS:
         logger.info("Processed %d messages, exiting", TOTAL_MESSAGES_TO_PROCESS)
         break
-```
