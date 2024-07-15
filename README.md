@@ -46,15 +46,15 @@ The following table provides a sample cost breakdown for deploying this
 Guidance with the default parameters in the US West (Oregon) Region
 for one month.
 
-| **AWS service**  | Dimensions | Cost \[USD\] |
-|-----------|------------|----------|
-| Amazon Elastic Kubernetes Service | 1 managed control plane | \$ 0.10 per Hour |
-| Amazon Elastic Compute Service | 2 or 3 m5.large instances | \$ 0.096 per instance per Hour |
-| Amazon Elastic Container Registry | less than 1GB of storage | \$ 0.10 per GB per month |
-| Amazon Simple Queue Message | less than 1 million requests | \$ 0.40 per Million |
-| Amazon Managed Service for Prometheus | less than 10M samples ingested + less than 1GB Storage | \$ 0.90 per 10M samples + \$ 0.03 per GB per Month | 
-| Amazon Cloud9 | 1 t2.micro Linux instance | \$ 0.0116 per hour + \$ 0.10 per GB per month of provisioned storage |
-| Amazon Managed Grafana | Optinally 1 Editor license | \$ 9 per user per month |
+| **Region** | **AWS service**  |  **Monthly (USD)** | **Assumptions** | 
+|-----------|------------|----------|----------|
+| US East (N. Virginia) | Amazon Elastic Kubernetes Service | $73 | Number of EKS Clusters (1) |  
+| US East (N. Virginia) | Amazon Elastic Container Registry | $0.10 | DT Inbound: Not selected (0 TB per month), DT Outbound: Not selected (0 TB per month), Amount of data stored (1 GB per month)| 
+| US East (N. Virginia) | Amazon Simple Queue Message | $0 | DT Inbound: Not selected (0 TB per month), DT Outbound: Not selected (0 TB per month), Standard queue requests (1 million per month) | 
+| US East (N. Virginia) | Amazon Managed Service for Prometheus | $100.6 | Average Number of Dashboard users per day (10), Number of Prometheus rules (10), Average number of queries per day per dashboard user (2400), Average samples per query for Monitoring queries (100000), Average samples per query for Alerting queries (100000), Ingestion Rate (250), Number of collectors (1) | 
+| US East (N. Virginia) | Amazon Managed Grafana | $9 | Number of active editors/administrators (1 per workspace per month) | 
+| US East (N. Virginia) | Amazon EC2  | $140.16 | Tenancy (Shared Instances), Operating system (Linux), Workload (Consistent, Number of instances: 2), Advance EC2 instance (m5.large), Pricing strategy (On-Demand Utilization: 100 %Utilized/Month), Enable monitoring (disabled), DT Inbound: Not selected (0 TB per month), DT Outbound: Not selected (0 TB per month), DT Intra-Region: (0 TB per month) | 
+|Total Monthly Estimated Cost| | $322.86 |  |
 
 
 ## Architecture
